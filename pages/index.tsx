@@ -1,3 +1,4 @@
+import React, {useState} from "react"
 import type { NextPage } from 'next'
 import Image from 'next/image'
 import { useAccount} from "wagmi"
@@ -6,25 +7,23 @@ import useAuctionRead from './hooks/useAuctionRead'
 import useAuctionWrite from './hooks/useAuctionWrite'
 
 const Home: NextPage = () => {
+  const [amount, setAmount] = useState(0)
   const {address} = useAccount()
   const {data:started, isError,isLoading} = useAuctionRead("started")
   const {data:ended} = useAuctionRead("ended")
   const {data:ownerAddress} = useAuctionRead("owner")
   const {writeAsync, data:writeData, isLoading:writeLoading, isError:writeError} = useAuctionWrite("Auction")
+  const {writeAsync:bidAsync, isLoading:bidLoading}  = useAuctionWrite("bid", amount)
+  
+ const handleAmount = (e:any)=>{
+    setAmount(e.target.value)
+  }
+
+  
+  
   
 
   const isAdmin = ownerAddress === address ? true : false
-
-  const startAuction = async () => {
-    try{
-      const tx  = await writeAsync?.()
-      console.log(tx)
-      const wait = await tx?.wait()
-      console.log(wait)
-    }
-    catch(e){}
-    finally{}
-  }
 
   const _statusButton = () =>{
     if(isLoading){
@@ -75,15 +74,15 @@ const Home: NextPage = () => {
           </span>
         </div>
 
-        <div>
-          <form>
-
-         
-          <input type='text' placeholder='Enter your bid' className='w-3/4 p-2 my-6 text-center border rounded-md' />
+        <div>         
+          <input  onChange={handleAmount} type='text' placeholder='Enter your bid' className='w-3/4 p-2 my-6 text-center border rounded-md' />
           <div>
-          <button className='w-full p-2 text-blue-200 bg-green-600 border-0 rounded-md'>Place Bid</button>
+          <button
+          type="button"
+          disabled={bidLoading || !amount || !started}
+          onClick={() => bidAsync?.()} 
+          className='w-full p-2 text-blue-200 bg-green-600 border-0 rounded-md'>Place Bid</button>
           </div>
-          </form>       
         </div>
       </div>
     </div>
