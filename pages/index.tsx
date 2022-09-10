@@ -19,10 +19,6 @@ const Home: NextPage = () => {
     setAmount(e.target.value)
   }
 
-  
-  
-  
-
   const isAdmin = ownerAddress === address ? true : false
 
   const _statusButton = () =>{
@@ -75,7 +71,7 @@ const Home: NextPage = () => {
         </div>
 
         <div>         
-          <input  onChange={handleAmount} type='text' placeholder='Enter your bid' className='w-3/4 p-2 my-6 text-center border rounded-md' />
+          <input  value={amount} onChange={handleAmount} type='text' placeholder='Enter your bid' className='w-3/4 p-2 my-6 text-center border rounded-md' />
           <div>
           <button
           type="button"
