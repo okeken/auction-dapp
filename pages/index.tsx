@@ -13,7 +13,7 @@ const Home: NextPage = () => {
   const {data:ended} = useAuctionRead("ended")
   const {data:ownerAddress} = useAuctionRead("owner")
   const {writeAsync, data:writeData, isLoading:writeLoading, isError:writeError} = useAuctionWrite("Auction")
-  const {writeAsync:bidAsync, isLoading:bidLoading}  = useAuctionWrite("bid", amount)
+  const {writeAsync:bidAsync, isLoading:bidLoading}  = useAuctionWrite("bid", amount ?? 0)
   
  const handleAmount = (e:any)=>{
     setAmount(e.target.value)
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
         </div>
 
         <div>         
-          <input  value={amount} onChange={handleAmount} type='text' placeholder='Enter your bid' className='w-3/4 p-2 my-6 text-center border rounded-md' />
+          <input  value={amount} onChange={handleAmount} type='number' placeholder='Enter your bid' className='w-3/4 p-2 my-6 text-center border rounded-md' />
           <div>
           <button
           type="button"
