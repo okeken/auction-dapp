@@ -72,7 +72,7 @@ const Home: NextPage = () => {
 
         <div>         
           <input 
-          disabled={bidLoading || !amount || !started}
+          // disabled={bidLoading || !amount || !started}
           value={amount} onChange={handleAmount} type='number' placeholder='Enter your bid' className='w-3/4 p-2 my-6 text-center border rounded-md' />
           <div>
           <button
